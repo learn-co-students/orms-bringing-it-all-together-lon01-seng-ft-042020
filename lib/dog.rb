@@ -20,7 +20,6 @@ class Dog
 
     def self.drop_table
         DB[:conn].execute('DROP TABLE IF EXISTS dogs')
-
     end
 
     def save
@@ -53,15 +52,10 @@ class Dog
         self.new_from_db(dog_data)
     end
 
-    def self.find_or_create_by(name: name, breed: breed = nil)
-
-        # if breed        
-            sql = "SELECT id, name, breed FROM dogs WHERE name = ? AND breed = ? LIMIT 1;"
-            dog_data = DB[:conn].execute(sql, name, breed).first
-        # # else
-            # sql = "SELECT id, name, breed FROM dogs WHERE name = ? LIMIT 1;"
-            # dog_data = DB[:conn].execute(sql, name).first
-        # end
+    def self.find_or_create_by(name: name, breed: breed)
+     
+        sql = "SELECT id, name, breed FROM dogs WHERE name = ? AND breed = ? LIMIT 1;"
+        dog_data = DB[:conn].execute(sql, name, breed).first
 
         if dog_data
             new_dog = self.new_from_db(dog_data)
@@ -90,11 +84,5 @@ class Dog
         DB[:conn].execute(sql, self.name, self.breed, self.id)
     end
         
-
-
-
-
-
-
 end
 
